@@ -33,4 +33,15 @@ Things to do:
 
 ## Installation
 
-Just source this in your `.zshrc` :)
+Source this in your `.zshrc` :)
+
+In `tmux` set:
+
+```
+# https://that.guru/blog/automatically-set-tmux-window-name
+set -g allow-rename on
+
+# to see the info on the right hand side
+set -g status-right "#{pane_title}"
+set -g status-right-length 100
+```
