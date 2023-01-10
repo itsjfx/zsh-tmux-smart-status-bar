@@ -27,6 +27,10 @@ I use terminal escape sequences to modify the window name and pane name, where I
 Things to do:
 * make the window names even better or selective around what args are listed, e.g. like [tmux-window-name](https://github.com/ofirgall/tmux-window-name)
 
+## Screenshot
+
+![screenshot](screenshot.png)
+
 ## Installation
 
 Just source this in your `.zshrc` :)
