@@ -7,9 +7,9 @@ _TMUX_WINDOW_NAME_MAX_LEN=25
 # inspired by https://github.com/mbenford/zsh-tmux-auto-title/blob/07fd6d7864df9aed4fbc5e1f67e1ad6eeef0a01f/zsh-tmux-auto-title.plugin.zsh#L17-L22
 _tmux_smart_title_set_title() {
     case "$1" in
-		window) printf "\ek%s\e\\" "${2:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" ;;
-		pane)   printf "\e]2;%s\e\\" "$2" ;;
-	esac
+        window) printf "\ek%s\e\\" "${2:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" ;;
+        pane)   printf "\e]2;%s\e\\" "$2" ;;
+    esac
 }
 
 _tmux_window_name_preexec_hook() {
