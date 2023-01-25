@@ -34,17 +34,17 @@ _tmux_status_bar_preexec_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
     if [ -n "$AWS_PROFILE" ]; then
-        output+=(": $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}") # not sure if needed
+        output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}") # not sure if needed
     fi
 #    if [ -n "$FNM_DIR" ]; then
 #        output+=(": $(fnm current)")
 #    fi
     # TODO
     if [[ "$LD_PRELOAD" == *libproxychains4.so* ]]; then
-        output+=("PROXYCHAINS ON")
+        output+=("🖥️  proxychains")
     fi
     if [ -n "$gitref" ]; then
-        output+=(" branch: $gitref") # small icon
+        output+=("🌳 branch: $gitref") # small icon
     fi
     _tmux_smart_title_set_title pane "${(j: | :)output}"
 }
