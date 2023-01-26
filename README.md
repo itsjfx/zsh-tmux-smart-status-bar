@@ -45,3 +45,8 @@ set -g allow-rename on
 set -g status-right "#{pane_title}"
 set -g status-right-length 100
 ```
+
+## See also
+
+* <https://github.com/tmux/tmux/wiki/Advanced-Use#pane-titles-and-the-terminal-title>
+* <https://zsh.sourceforge.io/Doc/Release/Functions.html>
