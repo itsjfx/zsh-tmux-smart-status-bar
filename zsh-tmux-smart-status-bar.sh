@@ -25,11 +25,6 @@ _tmux_window_name_precmd_hook() {
 }
 
 # example of another way using tmux command directly: https://github.com/drmad/tmux-git/blob/master/tmux-git.sh
-# seems to modify global?
-# abusing pane-title terminal escape sequence to rename for current window only: https://github.com/tmux/tmux/wiki/Advanced-Use#pane-titles-and-the-terminal-title
-# cause I use a single pane
-# where status-right is just "#{pane_title}"
-# means escape sequences are used which is lighter
 _tmux_status_bar_preexec_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
