@@ -6,9 +6,16 @@ _TMUX_WINDOW_NAME_MAX_LEN=25
 
 # inspired by https://github.com/mbenford/zsh-tmux-auto-title/blob/07fd6d7864df9aed4fbc5e1f67e1ad6eeef0a01f/zsh-tmux-auto-title.plugin.zsh#L17-L22
 _tmux_smart_title_set_title() {
-    case "$1" in
-        window) printf "\ek%s\e\\" "${2:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" ;;
-        pane)   printf "\e]2;%s\e\\" "$2" ;;
+    local type
+    type="$1"
+    shift
+    local text="$@"
+    if [ -n "$SSH_CLIENT" ]; then
+        text="ssh@$(hostname): $text"
+    fi
+    case "$type" in
+        window) printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" ;;
+        pane)   printf "\e]2;%s\e\\" "$text" ;;
     esac
 }
 
@@ -29,7 +36,7 @@ _tmux_status_bar_preexec_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
     if [ -n "$AWS_PROFILE" ]; then
-        output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}") # not sure if needed
+        output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
     fi
 #    if [ -n "$FNM_DIR" ]; then
 #        output+=(": $(fnm current)")
