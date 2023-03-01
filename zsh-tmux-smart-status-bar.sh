@@ -46,7 +46,7 @@ _tmux_status_bar_preexec_hook() {
         output+=("🖥️  proxychains")
     fi
     if [ -n "$gitref" ]; then
-        output+=("🌳 branch: $gitref") # small icon
+        output+=("🌳 $gitref")
     fi
     _tmux_smart_title_set_title pane "${(j: | :)output}"
 }
