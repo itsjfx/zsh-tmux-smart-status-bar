@@ -10,12 +10,16 @@ _tmux_smart_title_set_title() {
     type="$1"
     shift
     local text="$@"
-    if [ -n "$SSH_CLIENT" ]; then
-        text="ssh@$(hostname): $text"
-    fi
     case "$type" in
-        window) printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" ;;
-        pane)   printf "\e]2;%s\e\\" "$text" ;;
+        window)
+            if [ -n "$SSH_CLIENT" ]; then
+                text="ssh@$(hostname): $text"
+            fi
+            printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}"
+            ;;
+        pane)
+            printf "\e]2;%s\e\\" "$text"
+            ;;
     esac
 }
 
@@ -35,6 +39,9 @@ _tmux_window_name_precmd_hook() {
 _tmux_status_bar_preexec_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
+    if [ -n "$SSH_CONNECTION" ]; then
+        output+=("🖥️  SSH")
+    fi
     if [ -n "$AWS_PROFILE" ]; then
         output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
     fi
