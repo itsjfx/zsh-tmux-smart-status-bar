@@ -12,8 +12,16 @@ _tmux_smart_title_set_title() {
     local text="$@"
     case "$type" in
         window)
+            # disable under these circumstances
+            # the window name terminal escape sequence is non standard and has issues on other terminals
+            if (( "$TMUX_SMART_TITLE_DISABLE" )) || \
+                (( "$ASCIINEMA_REC" )) || \
+                [[ "$TERM" != 'tmux-256color' ]]; then
+                return;
+            fi
+            # inside an SSH session
             if [ -n "$SSH_CLIENT" ]; then
-                text="ssh@$(hostname): $text"
+                text="ssh:$USER@$(hostname): $text"
             fi
             printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}"
             ;;
@@ -40,7 +48,7 @@ _tmux_status_bar_preexec_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
     if [ -n "$SSH_CONNECTION" ]; then
-        output+=("🖥️  SSH")
+        output+=("🖥️  SSH $USER@$(hostname)")
     fi
     if [ -n "$AWS_PROFILE" ]; then
         output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
