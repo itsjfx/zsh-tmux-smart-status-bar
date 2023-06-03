@@ -2,7 +2,7 @@
 
 # TODO may remove this cause you can do trimming and padding natively in tmux
 # https://github.com/tmux/tmux/wiki/Formats#trimming-and-padding
-_TMUX_WINDOW_NAME_MAX_LEN=25
+_TMUX_WINDOW_NAME_MAX_LEN=27
 
 # inspired by https://github.com/mbenford/zsh-tmux-auto-title/blob/07fd6d7864df9aed4fbc5e1f67e1ad6eeef0a01f/zsh-tmux-auto-title.plugin.zsh#L17-L22
 _tmux_smart_title_set_title() {
@@ -14,8 +14,8 @@ _tmux_smart_title_set_title() {
         window)
             # disable under these circumstances
             # the window name terminal escape sequence is non standard and has issues on other terminals
-            if (( "$TMUX_SMART_TITLE_DISABLE" )) || \
-                (( "$ASCIINEMA_REC" )) || \
+            if (( TMUX_SMART_TITLE_DISABLE )) || \
+                (( ASCIINEMA_REC )) || \
                 [[ "$TERM" != 'tmux-256color' ]]; then
                 return;
             fi
@@ -68,7 +68,6 @@ _tmux_status_bar_preexec_hook() {
 
 # https://zsh.sourceforge.io/Doc/Release/Functions.html
 autoload -U add-zsh-hook
-# chpwd?
 # before prompt
 add-zsh-hook precmd _tmux_window_name_precmd_hook
 add-zsh-hook precmd _tmux_status_bar_preexec_hook
