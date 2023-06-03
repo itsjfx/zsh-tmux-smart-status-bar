@@ -2,51 +2,60 @@
 
 ## Overview
 
-I installed `tmux` for the status bar so I could have a clean prompt.
+I installed `tmux` to have a clean prompt by displaying information on a status bar. I wanted information on the current branch, AWS environment variables, and meaningful window/tab names based on the currently executed command or current directory.
 
-My goal was to have information on the current branch, AWS environment variables -- and to have meaningful window/tab names about the currently executed command or opened directory. 
+Existing scripts didn't meet my requirements:
+* some had not great update mechanisms. they relied on polling, or on window switching
+* some were overly heavy and added unnecessary and painful delay to my shell
+* some were overly complicated for a simple task of populating a status bar
+* were missing desired features
 
-There's a few scripts around, but they didn't fulfill my requirements:
-* not great update mechanisms (e.g. polling, or on window switching)
-* some were overly heavy and added delay to my shell
-* just overly complicated in general, this is a status bar and it just needs to run a shell command and dump some environment variables
-* missing something from the second sentence above
+This script uses [terminal escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code) to update the status bar and window name efficiently using [zsh hooks](https://zsh.sourceforge.io/Doc/Release/Functions.html).
 
-Some existing projects:
-* <https://github.com/arl/gitmux>
-* <https://github.com/drmad/tmux-git>
-* <https://github.com/mbenford/zsh-tmux-auto-title>
-* <https://github.com/ofirgall/tmux-window-name>
+Updates are made when the shell prompt is rendered or when a command is executed.
 
-The reason why I call this "smart" is cause just like [zsh-tmux-auto-title](https://github.com/mbenford/zsh-tmux-auto-title), it uses [terminal escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code) to update the status bar using [zsh hooks](https://zsh.sourceforge.io/Doc/Release/Functions.html).
+## Screenshots
 
-This means that it'll update the status bar in the most efficient manner (not spawning `tmux` processes), and it'll happen in real time as changes are made (when the shell prompt is rendered, or when a command is executed).
-
-I use terminal escape sequences to modify the window name and pane name, where I make the pane name the content of the right hand side of my status bar. This is where my "meta" status info lives (e.g. current `git` branch, etc). I'm not using multiple panes, so this seems ok at the moment -- but if I face any issues I'll likely have to set the status text directly within the script calling `tmux`.
-
-Things to do:
-* make the window names even better or selective around what args are listed, e.g. like [tmux-window-name](https://github.com/ofirgall/tmux-window-name)
-
-## Screenshot
-
-![screenshot](screenshot.png)
 
 ## Installation
 
-Source this in your `.zshrc` :)
+Add to your `.zshrc`
 
-In `tmux` set:
+```bash
+source /path/to/zsh-tmux-smart-status-bar/zsh-tmux-smart-status-bar.sh
+```
+
+To have a similar status bar in `tmux` to the screenshots, set:
 
 ```
 # https://that.guru/blog/automatically-set-tmux-window-name
 set -g allow-rename on
 
-# to see the info on the right hand side
-set -g status-right "#{pane_title}"
-set -g status-right-length 100
+set-option -g status 2
+set -g status-right ''
+set -g status-format[1] ''
+set -g status-format[1] '#[align=centre]#{pane_title}'
 ```
+
+where `#{pane_title}` will have the status bar contents
+
+You can customise the style of your `tmux` status bar however you like. Some helpful resources:
+* <https://www.fosslinux.com/104470/customizing-the-tmux-status-bar-in-linux.htm>
+* <https://tao-of-tmux.readthedocs.io/en/latest/manuscript/09-status-bar.html>
+* <https://linuxhint.com/customizing-status-bar-tmux/>
+* <https://man7.org/linux/man-pages/man1/tmux.1.html#STATUS_LINE>
+* <https://github.com/itsjfx/dotfiles/blob/master/.config/tmux/conf.d/001-style.conf>
+
+## TODO
+
+* make the window names shorter/more selective around what args are listed, like [tmux-window-name](https://github.com/ofirgall/tmux-window-name)
 
 ## See also
 
 * <https://github.com/tmux/tmux/wiki/Advanced-Use#pane-titles-and-the-terminal-title>
 * <https://zsh.sourceforge.io/Doc/Release/Functions.html>
+* <https://github.com/arl/gitmux>
+* <https://github.com/drmad/tmux-git>
+* <https://github.com/mbenford/zsh-tmux-auto-title>
+    * also uses terminal escape sequences as the update mechanism
+* <https://github.com/ofirgall/tmux-window-name>
