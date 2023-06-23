@@ -32,7 +32,7 @@ _tmux_smart_title_set_title() {
 }
 
 _tmux_window_name_preexec_hook() {
-    local output="$2"
+    local output="$1"
     _tmux_smart_title_set_title window "$output"
 }
 
@@ -44,7 +44,7 @@ _tmux_window_name_precmd_hook() {
 }
 
 # example of another way using tmux command directly: https://github.com/drmad/tmux-git/blob/master/tmux-git.sh
-_tmux_status_bar_preexec_hook() {
+_tmux_status_bar_precmd_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
     if [ -n "$SSH_CONNECTION" ]; then
@@ -70,6 +70,6 @@ _tmux_status_bar_preexec_hook() {
 autoload -U add-zsh-hook
 # before prompt
 add-zsh-hook precmd _tmux_window_name_precmd_hook
-add-zsh-hook precmd _tmux_status_bar_preexec_hook
+add-zsh-hook precmd _tmux_status_bar_precmd_hook
 # before executed command
 add-zsh-hook preexec _tmux_window_name_preexec_hook
