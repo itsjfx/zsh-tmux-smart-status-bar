@@ -4,6 +4,15 @@
 # https://github.com/tmux/tmux/wiki/Formats#trimming-and-padding
 _TMUX_WINDOW_NAME_MAX_LEN=27
 
+set-window-name() {
+    if (( $# )); then
+        export _TMUX_WINDOW_NAME_OVERRIDE="$@"
+    else
+        unset _TMUX_WINDOW_NAME_OVERRIDE
+    fi
+}
+unset-window-name() { set-window-name }
+
 # inspired by https://github.com/mbenford/zsh-tmux-auto-title/blob/07fd6d7864df9aed4fbc5e1f67e1ad6eeef0a01f/zsh-tmux-auto-title.plugin.zsh#L17-L22
 _tmux_smart_title_set_title() {
     local type
@@ -14,7 +23,7 @@ _tmux_smart_title_set_title() {
         window)
             # disable under these circumstances
             # the window name terminal escape sequence is non standard and has issues on other terminals
-            if (( TMUX_SMART_TITLE_DISABLE )) || \
+            if  (( TMUX_SMART_TITLE_DISABLE )) || \
                 (( ASCIINEMA_REC )) || \
                 [[ "$TERM" != 'tmux-256color' ]]; then
                 return;
@@ -22,6 +31,9 @@ _tmux_smart_title_set_title() {
             # inside an SSH session
             if [ -n "$SSH_CLIENT" ]; then
                 text="ssh:$USER@$(hostname): $text"
+            fi
+            if [[ -n "$_TMUX_WINDOW_NAME_OVERRIDE" ]]; then
+                text="$_TMUX_WINDOW_NAME_OVERRIDE"
             fi
             printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}"
             ;;
@@ -47,6 +59,9 @@ _tmux_window_name_precmd_hook() {
 _tmux_status_bar_precmd_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
+    if [ -n "$_BOB_CLIENT" ]; then
+        output+=("$_BOB_CLIENT")
+    fi
     if [ -n "$SSH_CONNECTION" ]; then
         output+=("🖥️  SSH $USER@$(hostname)")
     fi
