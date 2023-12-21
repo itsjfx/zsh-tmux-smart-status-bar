@@ -45,7 +45,12 @@ set -g status-format[1] '#[align=centre]#{pane_title}'
 
 where `#{pane_title}` will have the status bar contents
 
-You can customise the style of your `tmux` status bar however you like. Some helpful resources:
+You can customise the style of your `tmux` status bar however you like.
+
+My full config (including options and styling) is available here:
+* <https://github.com/itsjfx/dotfiles/tree/master/.config/tmux/conf.d>
+
+Some helpful resources for learning how to style your bar:
 * <https://www.fosslinux.com/104470/customizing-the-tmux-status-bar-in-linux.htm>
 * <https://tao-of-tmux.readthedocs.io/en/latest/manuscript/09-status-bar.html>
 * <https://linuxhint.com/customizing-status-bar-tmux/>
