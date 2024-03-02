@@ -62,6 +62,7 @@ _tmux_status_bar_precmd_hook() {
     if [ -n "$_BOB_CLIENT" ]; then
         output+=("$_BOB_CLIENT")
     fi
+    output+=("$(dirs)")
     if [ -n "$SSH_CONNECTION" ]; then
         output+=("🖥️  SSH $USER@$(hostname)")
     fi
