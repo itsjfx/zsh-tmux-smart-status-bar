@@ -30,7 +30,7 @@ _tmux_smart_title_set_title() {
             fi
             # inside an SSH session
             if [ -n "$SSH_CLIENT" ]; then
-                text="ssh:$USER@$(hostname): $text"
+                text="$USER@$(hostname): $text"
             fi
             if [[ -n "$_TMUX_WINDOW_NAME_OVERRIDE" ]]; then
                 text="$_TMUX_WINDOW_NAME_OVERRIDE"
