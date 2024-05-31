@@ -64,7 +64,7 @@ _tmux_status_bar_precmd_hook() {
     fi
     output+=("$(dirs)")
     if [ -n "$SSH_CONNECTION" ]; then
-        output+=("🖥️  SSH $USER@$(hostname)")
+        output+=("󰢹 $USER@$(hostname)")
     fi
     if [ -n "$AWS_PROFILE" ]; then
         output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
