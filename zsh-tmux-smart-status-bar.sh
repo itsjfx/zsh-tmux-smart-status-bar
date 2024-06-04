@@ -70,12 +70,9 @@ _tmux_status_bar_precmd_hook() {
     if [ -n "$AWS_PROFILE" ]; then
         output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
     fi
-#    if [ -n "$FNM_DIR" ]; then
-#        output+=(": $(fnm current)")
-#    fi
     # TODO
     if [[ "$LD_PRELOAD" == *libproxychains4.so* ]]; then
-        output+=("🖥️  proxychains")
+        output+=("󰒍 proxychains")
     fi
     if [ -n "$gitref" ]; then
         output+=("🌳 $gitref")
