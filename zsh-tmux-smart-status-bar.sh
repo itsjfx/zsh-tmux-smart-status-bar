@@ -3,6 +3,7 @@
 # TODO may remove this cause you can do trimming and padding natively in tmux
 # https://github.com/tmux/tmux/wiki/Formats#trimming-and-padding
 _TMUX_WINDOW_NAME_MAX_LEN=27
+_TMUX_HOSTNAME="$(hostname -s)"
 
 set-window-name() {
     if (( $# )); then
@@ -28,12 +29,12 @@ _tmux_smart_title_set_title() {
                 [[ "$TERM" != 'tmux-256color' ]]; then
                 return;
             fi
-            # inside an SSH session
-            if [ -n "$SSH_CLIENT" ]; then
-                text="$USER@$(hostname): $text"
-            fi
+
             if [[ -n "$_TMUX_WINDOW_NAME_OVERRIDE" ]]; then
                 text="$_TMUX_WINDOW_NAME_OVERRIDE"
+            # inside an SSH session
+            elif [ -n "$SSH_CLIENT" ]; then
+                text="$USER@$_TMUX_HOSTNAME: $text"
             fi
             printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}"
             ;;
