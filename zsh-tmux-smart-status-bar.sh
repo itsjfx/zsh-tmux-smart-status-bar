@@ -6,7 +6,7 @@ _TMUX_WINDOW_NAME_MAX_LEN=27
 _TMUX_HOSTNAME="$(hostname -s)"
 _TMUX_IS_TMUX="$([[ "$TERM" != 'tmux-256color' ]] && echo 0 || echo 1)"
 # store on init, allow user to set either
-_TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-AWS_DEFAULT_REGION}"
+_TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-"$AWS_DEFAULT_REGION"}"
 
 set-window-name() {
     if (( $# )); then
