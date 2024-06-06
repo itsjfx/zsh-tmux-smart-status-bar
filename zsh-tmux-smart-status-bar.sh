@@ -4,6 +4,9 @@
 # https://github.com/tmux/tmux/wiki/Formats#trimming-and-padding
 _TMUX_WINDOW_NAME_MAX_LEN=27
 _TMUX_HOSTNAME="$(hostname -s)"
+_TMUX_IS_TMUX="$([[ "$TERM" != 'tmux-256color' ]] && echo 0 || echo 1)"
+# store on init, allow user to set either
+_TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-AWS_DEFAULT_REGION}"
 
 set-window-name() {
     if (( $# )); then
@@ -26,7 +29,7 @@ _tmux_smart_title_set_title() {
             # the window name terminal escape sequence is non standard and has issues on other terminals
             if  (( TMUX_SMART_TITLE_DISABLE )) || \
                 (( ASCIINEMA_REC )) || \
-                [[ "$TERM" != 'tmux-256color' ]]; then
+                (( ! _TMUX_IS_TMUX )); then
                 return;
             fi
 
@@ -60,15 +63,34 @@ _tmux_window_name_precmd_hook() {
 _tmux_status_bar_precmd_hook() {
     local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
     local output=()
+    local gitrepo cdir aws_region
+    cdir="$(dirs)"
     if [ -n "$_BOB_CLIENT" ]; then
         output+=("$_BOB_CLIENT")
     fi
-    output+=("$(dirs)")
+    if (( _TMUX_IS_TMUX )) && gitrepo="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+        # collapse HOME if at the beginning
+        if [[ "$gitrepo" == "$HOME"* ]]; then
+            gitrepo="${gitrepo//"$HOME"/~}"
+        fi
+        # this check is probably not needed but might run into issues with symlinks
+        if [[ "$cdir" == "$gitrepo"* ]]; then
+            output+=("#[fg=default,bg=#ff79c6]$gitrepo#[fg=default,bg=default]${cdir#"$gitrepo"}")
+        else
+            output+=("$cdir")
+        fi
+    else
+        output+=("$cdir")
+    fi
     if [ -n "$SSH_CONNECTION" ]; then
         output+=("󰢹 $USER@$(hostname)")
     fi
     if [ -n "$AWS_PROFILE" ]; then
-        output+=("AWS: $AWS_PROFILE ${AWS_REGION:-$AWS_DEFAULT_REGION}")
+        # only show region if its not the default one, to avoid filling up the bar
+        if [ "$_TMUX_AWS_DEFAULT_REGION" != "${AWS_REGION:-$AWS_DEFAULT_REGION}" ]; then
+            aws_region=" ${AWS_REGION:-$AWS_DEFAULT_REGION}"
+        fi
+        output+=(" $AWS_PROFILE$aws_region")
     fi
     # TODO
     if [[ "$LD_PRELOAD" == *libproxychains4.so* ]]; then
