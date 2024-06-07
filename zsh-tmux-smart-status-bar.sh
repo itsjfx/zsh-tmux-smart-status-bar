@@ -68,17 +68,10 @@ _tmux_status_bar_precmd_hook() {
     if [ -n "$_BOB_CLIENT" ]; then
         output+=("$_BOB_CLIENT")
     fi
-    if (( _TMUX_IS_TMUX )) && gitrepo="$(git rev-parse --show-toplevel 2>/dev/null)"; then
-        # collapse HOME if at the beginning
-        if [[ "$gitrepo" == "$HOME"* ]]; then
-            gitrepo="${gitrepo//"$HOME"/~}"
-        fi
-        # this check is probably not needed but might run into issues with symlinks
-        if [[ "$cdir" == "$gitrepo"* ]]; then
-            output+=("#[fg=default,bg=#ff79c6]$gitrepo#[fg=default,bg=default]${cdir#"$gitrepo"}")
-        else
-            output+=("$cdir")
-        fi
+    if (( _TMUX_IS_TMUX )) && gitpath="$(git rev-parse --show-prefix 2>/dev/null)"; then
+        cdir="$cdir/"
+        gitpath="/$gitpath"
+        output+=("#[fg=default,bg=#ff79c6]${cdir%"$gitpath"}#[fg=default,bg=default]${gitpath%/}")
     else
         output+=("$cdir")
     fi
