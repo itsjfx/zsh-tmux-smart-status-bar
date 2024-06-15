@@ -14,6 +14,17 @@ This script uses [terminal escape sequences](https://en.wikipedia.org/wiki/ANSI_
 
 Updates are made when the shell prompt is rendered or when a command is executed.
 
+## Features
+
+* Lightweight update mechanism with [zsh hooks](https://zsh.sourceforge.io/Doc/Release/Functions.html)
+* Main status bar updates even if SSH'd to a machine using the plugin but not running `tmux`
+* The following items displayed:
+   * current working directory. git repository path hightlighted if within a repo
+   * current username@hostname, if ssh'd to host also using the plugin and not running `tmux` within `ssh`
+   * current AWS profile, with region displayed if set to a non-default region
+   * current git tag/branch
+   * proxychains status (e.g if running `proxychains -q zsh`)
+
 ## Screenshots
 
 Status bar while SSH'd to my home machine which runs the plugin. In a git repo, with an AWS profile set.
