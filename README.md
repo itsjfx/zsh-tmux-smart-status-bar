@@ -16,12 +16,11 @@ Updates are made when the shell prompt is rendered or when a command is executed
 
 ## Screenshots
 
-Status bar with `AWS`, `proxychains`, and `git` branch status
-![status-bar-non-ssh](https://github.com/itsjfx/zsh-tmux-smart-status-bar/assets/13778935/3b4047ec-0dd2-4034-821b-145c6b865c49)
+Status bar while SSH'd to my home machine which runs the plugin. In a git repo, with an AWS profile set.
 
+The other tabs in my terminal are: open to `/tmp`, running a `git` command, and running `vim` (aliased to `v`).
 
-Status bar while `SSH`'d into a system which is also running the plugin where the current working directory is a `git` repo
-![status-bar-ssh](https://github.com/itsjfx/zsh-tmux-smart-status-bar/assets/13778935/d9652cc8-b17d-4fdb-9625-6a876d8b1a6d)
+![status-bar](https://github.com/itsjfx/zsh-tmux-smart-status-bar/assets/13778935/1b5c2739-53b8-4add-84fa-20741f3a7bad)
 
 ## Installation
 
