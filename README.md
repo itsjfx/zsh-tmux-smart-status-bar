@@ -16,8 +16,9 @@ Updates are made when the shell prompt is rendered or when a command is executed
 
 ## Features
 
-* Lightweight update mechanism with [zsh hooks](https://zsh.sourceforge.io/Doc/Release/Functions.html)
-* Main status bar updates even if SSH'd to a machine using the plugin but not running `tmux`
+* Lightweight and quick update mechanism with [zsh hooks](https://zsh.sourceforge.io/Doc/Release/Functions.html)
+* Status bar updates even if SSH'd to a machine using the plugin but not running `tmux`
+* Window names named after current working directory or current running process
 * The following items displayed:
    * current working directory. git repository path hightlighted if within a repo
    * current username@hostname, if ssh'd to host also using the plugin and not running `tmux` within `ssh`
