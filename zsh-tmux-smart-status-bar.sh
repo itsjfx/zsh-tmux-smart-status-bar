@@ -76,7 +76,7 @@ _tmux_status_bar_precmd_hook() {
         output+=("$cdir")
     fi
     if [ -n "$SSH_CONNECTION" ]; then
-        output+=("󰢹 $USER@$(hostname)")
+        output+=("󰢹 $USER@$_TMUX_HOSTNAME")
     fi
     if [ -n "$AWS_PROFILE" ]; then
         # only show region if its not the default one, to avoid filling up the bar
