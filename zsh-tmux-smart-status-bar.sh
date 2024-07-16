@@ -90,7 +90,7 @@ _tmux_status_bar_precmd_hook() {
         output+=("󰒍 proxychains")
     fi
     if [ -n "$gitref" ]; then
-        output+=("🌳 $gitref")
+        output+=("🌳$gitref")
     fi
     _tmux_smart_title_set_title pane "${(j: | :)output}"
 }
