@@ -71,7 +71,7 @@ _tmux_status_bar_precmd_hook() {
     if (( _TMUX_IS_TMUX )) && gitpath="$(git rev-parse --show-prefix 2>/dev/null)"; then
         cdir="$cdir/"
         gitpath="/$gitpath"
-        output+=("#[fg=#50fa7b,bg=default]${cdir%"$gitpath"}#[fg=default,bg=default]${gitpath%/}")
+        output+=("#[fg=#50fa7b,bg=default]${cdir%"$gitpath"}#[default]${gitpath%/}")
     else
         output+=("$cdir")
     fi
