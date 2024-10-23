@@ -42,6 +42,8 @@ Add to your `.zshrc`
 source /path/to/zsh-tmux-smart-status-bar/zsh-tmux-smart-status-bar.sh
 ```
 
+You must have `TERM` set to a `tmux-` term, e.g. `tmux-256color`
+
 To have a similar status bar in `tmux` to the screenshots, set:
 
 ```
