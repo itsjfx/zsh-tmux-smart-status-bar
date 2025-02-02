@@ -94,6 +94,9 @@ _tmux_status_bar_precmd_hook() {
         if [[ "$LD_PRELOAD" == *libproxychains4.so* ]]; then
             output+=("󰒍 proxychains")
         fi
+        if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
+            output+=("🐍${${VIRTUAL_ENV%/*}##*/}")
+        fi
         if [ -n "$gitref" ]; then
             output+=("🌳$gitref")
         fi
