@@ -100,6 +100,9 @@ _tmux_status_bar_precmd_hook() {
         if [ -n "$gitref" ]; then
             output+=("🌳$gitref")
         fi
+        if [ -z "$HISTFILE" ]; then
+            output+=("👻")
+        fi
         _tmux_smart_title_set_title pane "${(j: | :)output}"
     ) &!
 }
