@@ -90,6 +90,9 @@ _tmux_status_bar_precmd_hook() {
             fi
             output+=(" $AWS_PROFILE$aws_region")
         fi
+        if [ -n "$AZURE_ACCOUNT" ]; then
+            output+=("󰠅 ${AZURE_ACCOUNT#*/}")
+        fi
         # TODO
         if [[ "$LD_PRELOAD" == *libproxychains4.so* ]]; then
             output+=("󰒍 proxychains")
