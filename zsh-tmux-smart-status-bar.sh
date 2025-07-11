@@ -39,7 +39,7 @@ _tmux_smart_title_set_title() {
             elif [ -n "$SSH_CLIENT" ]; then
                 text="$USER@$_TMUX_HOSTNAME: $text"
             fi
-            printf "\ek%s\e\\" "${text:0:"$_TMUX_WINDOW_NAME_MAX_LEN"}" >/dev/tty
+            printf "\ek%s\e\\" "${text:0:_TMUX_WINDOW_NAME_MAX_LEN}" >/dev/tty
             ;;
         pane)
             printf "\e]2;%s\e\\" "$text" >/dev/tty
