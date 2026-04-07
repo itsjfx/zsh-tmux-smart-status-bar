@@ -37,7 +37,7 @@ _tmux_smart_title_set_title() {
             if [[ -n "$_TMUX_WINDOW_NAME_OVERRIDE" ]]; then
                 text="$_TMUX_WINDOW_NAME_OVERRIDE"
             # inside an SSH session
-            elif [ -n "$SSH_CLIENT" ]; then
+            elif (( _TMUX_TITLE_WINDOW_IN_SSH )) && [ -n "$SSH_CLIENT" ]; then
                 text="$USER@$_TMUX_HOSTNAME: $text"
             fi
             printf "\ek%s\e\\" "${text:0:_TMUX_WINDOW_NAME_MAX_LEN}" >/dev/tty
@@ -81,7 +81,7 @@ _tmux_status_bar_precmd_hook() {
         else
             output+=("$cdir")
         fi
-        if (( _TMUX_TITLE_WINDOW_IN_SSH )) && [ -n "$SSH_CONNECTION" ]; then
+        if [ -n "$SSH_CONNECTION" ]; then
             output+=("󰢹 $USER@$_TMUX_HOSTNAME")
         fi
         if [ -n "$AWS_PROFILE" ]; then
