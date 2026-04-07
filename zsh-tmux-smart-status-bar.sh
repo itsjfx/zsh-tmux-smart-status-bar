@@ -7,6 +7,7 @@ _TMUX_HOSTNAME="$(hostname -s)"
 _TMUX_IS_TMUX="$([[ "$TERM" == tmux-* ]] && echo 1 || echo 0)"
 # store on init, allow user to set either
 _TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-"$AWS_DEFAULT_REGION"}"
+_TMUX_TITLE_WINDOW_IN_SSH=1
 
 set-window-name() {
     if (( $# )); then
@@ -80,7 +81,7 @@ _tmux_status_bar_precmd_hook() {
         else
             output+=("$cdir")
         fi
-        if [ -n "$SSH_CONNECTION" ]; then
+        if (( _TMUX_TITLE_WINDOW_IN_SSH )) && [ -n "$SSH_CONNECTION" ]; then
             output+=("󰢹 $USER@$_TMUX_HOSTNAME")
         fi
         if [ -n "$AWS_PROFILE" ]; then
