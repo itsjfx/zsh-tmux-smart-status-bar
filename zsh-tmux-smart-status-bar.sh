@@ -107,6 +107,9 @@ _tmux_status_bar_precmd_hook() {
         if [ -z "$HISTFILE" ]; then
             output+=("👻")
         fi
+        if [ -n "$JAVA_HOME" ]; then
+            output+=("☕${JAVA_HOME##*/corretto-}")
+        fi
         _tmux_smart_title_set_title pane "${(j: | :)output}"
     ) &!
 }
