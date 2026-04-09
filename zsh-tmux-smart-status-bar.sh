@@ -7,7 +7,7 @@ _TMUX_HOSTNAME="${SSH_ALIAS:-"$(hostname -s)"}"
 _TMUX_IS_TMUX="$([[ "$TERM" == tmux-* ]] && echo 1 || echo 0)"
 # store on init, allow user to set either
 _TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-"$AWS_DEFAULT_REGION"}"
-_TMUX_TITLE_WINDOW_IN_SSH=1
+_TMUX_TITLE_WINDOW_IN_SSH="${_TMUX_TITLE_WINDOW_IN_SSH:-1}"
 
 set-window-name() {
     if (( $# )); then
