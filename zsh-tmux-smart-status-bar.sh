@@ -3,7 +3,7 @@
 # TODO may remove this cause you can do trimming and padding natively in tmux
 # https://github.com/tmux/tmux/wiki/Formats#trimming-and-padding
 _TMUX_WINDOW_NAME_MAX_LEN=27
-_TMUX_HOSTNAME="$(hostname -s)"
+_TMUX_HOSTNAME="${SSH_ALIAS:-"$(hostname -s)"}"
 _TMUX_IS_TMUX="$([[ "$TERM" == tmux-* ]] && echo 1 || echo 0)"
 # store on init, allow user to set either
 _TMUX_AWS_DEFAULT_REGION="${_TMUX_AWS_DEFAULT_REGION-"$AWS_DEFAULT_REGION"}"
