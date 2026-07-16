@@ -69,7 +69,7 @@ _tmux_status_bar_precmd_hook() {
     (
         local gitref="$(timeout 0.05 sh -c 'git symbolic-ref -q --short HEAD || git describe HEAD --always --tags' 2>/dev/null)"
         local output=()
-        local gitrepo cdir aws_region
+        local gitrepo cdir aws_region java_home
         cdir="$(dirs)"
         if [ -n "$_BOB_CLIENT" ]; then
             output+=("$_BOB_CLIENT")
@@ -108,7 +108,8 @@ _tmux_status_bar_precmd_hook() {
             output+=("👻")
         fi
         if [ -n "$JAVA_HOME" ]; then
-            output+=("☕${JAVA_HOME##*/corretto-}")
+            java_home="$(basename "$JAVA_HOME")"
+            output+=("☕${java_home##*-}")
         fi
         _tmux_smart_title_set_title pane "${(j: | :)output}"
     ) &!
